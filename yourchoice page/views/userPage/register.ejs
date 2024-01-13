@@ -1,0 +1,200 @@
+<%- include('../include/header') %>
+
+  <section class="container forms">
+    <div class="form login">
+      <div class="form-content">
+        <header>REGISTER</header>
+        <% if(typeof message !=="undefined" ){ %>
+          <p class="form-link" style="color: red;">
+            <%= message %>
+          </p>
+          <% } %>
+          <form action="/register" method="post" id="registrationForm">
+            <div class="field input-field">
+              <input type="text" placeholder="Name" class="input" name="name" value="<%= locals.name%>">
+            </div>
+            
+            <%
+            if(typeof messagename !=="undefined"){
+               %>
+               <p class="form-link" style="color: red;"><%= messagename %></p>
+              <%
+            }
+          %>
+          <p class="form-link name" style="color: red;"></p>
+            
+        
+            <div class="field input-field">
+              <input type="text" placeholder="Phone number" class="input" name="Phone" value="<%= locals.phone%>">
+            </div>
+            <%
+            if(typeof messagepon !=="undefined"){
+               %>
+               <p class="form-link" style="color: red;"><%= messagepon %></p>
+              <%
+            }
+          %>
+            <p class="form-link" style="color: red;"></p>
+            
+        
+            <div class="field input-field">
+              <input type="email" placeholder="Email" class="input" name="email" value="<%= locals.email%>">
+            </div>
+            <%
+            if(typeof messageemil !=="undefined"){
+              %>
+              <p class="form-link" style="color: red;"><%= messageemil %></p>
+             <%
+           }
+         %>
+            <p class="form-link email" style="color: red;"></p>
+           
+
+        
+            <div class="field input-field">
+              <input type="password" placeholder="Password" class="password" name="password1" value="<%= locals.password1%>">
+              <i class='bx bx-hide eye-icon'></i>
+            </div>
+            <p class="form-link password1" style="color: red;"></p>
+        
+            <div class="field input-field">
+              <input type="password" placeholder="Confirm password" class="password" name="password2" value="<%= locals.password2%>">
+              <i class='bx bx-hide eye-icon'></i>
+            </div>
+            <%
+            if(typeof messagepass !=="undefined"){
+              %>
+              <p class="form-link" style="color: red;"><%= messagepass %></p>
+             <%
+           }
+         %>
+            <p class="form-link password2" style="color: red;"></p>
+            
+        
+            <div class="field button-field">
+              <button>Register</button>
+            </div>
+          </form>
+        
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const form = document.getElementById('registrationForm');
+        
+              form.addEventListener('submit', function (event) {
+                let valid = true;
+        
+                // Validate Name
+                const nameInput = document.querySelector('input[name="name"]');
+                if (nameInput.value.trim() === '') {
+                  showError(nameInput, 'Name is required');
+                  valid = false;
+                } else {
+                  hideError(nameInput);
+                }
+        
+                // Validate Phone Number
+                const phoneInput = document.querySelector('input[name="Phone"]');
+                const phoneRegex = /^\d+$/;
+                if (phoneInput.value.trim() === '' || !phoneRegex.test(phoneInput.value.trim())) {
+                  showError(phoneInput, 'Please enter a valid phone number');
+                  valid = false;
+                } else {
+                  hideError(phoneInput);
+                }
+        
+                // Validate Email
+                const emailInput = document.querySelector('input[name="email"]');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailInput.value.trim() === '' || !emailRegex.test(emailInput.value.trim())) {
+                  showError(emailInput, 'Please enter a valid email address');
+                  valid = false;
+                } else {
+                  hideError(emailInput);
+                }
+        
+                // Validate Passwords
+                const password1Input = document.querySelector('input[name="password1"]');
+                const password2Input = document.querySelector('input[name="password2"]');
+                if (password1Input.value.trim() === '') {
+                  showError(password1Input, 'Password is required');
+                  valid = false;
+                } else {
+                  hideError(password1Input);
+                }
+        
+                if (password2Input.value.trim() === '' || password1Input.value.trim() !== password2Input.value.trim()) {
+                  showError(password2Input, 'Passwords do not match');
+                  valid = false;
+                } else {
+                  hideError(password2Input);
+                }
+        
+                if (!valid) {
+                  event.preventDefault(); // Prevent form submission if validation fails
+                }
+              });
+        
+              // Function to show error message
+              function showError(input, message) {
+                const errorElement = input.parentElement.nextElementSibling;
+                errorElement.innerHTML = message;
+              }
+        
+              // Function to hide error message
+              function hideError(input) {
+                const errorElement = input.parentElement.nextElementSibling;
+                errorElement.innerHTML = '';
+              }
+            });
+          </script>
+
+            <div class="form-link">
+              <span>Already have an account? <a href="/login" class=>Login</a></span>
+            </div>
+      </div>
+
+
+
+
+
+    </div>
+
+
+  </section>
+
+  <script>
+    const forms = document.querySelector(".forms"),
+      pwShowHide = document.querySelectorAll(".eye-icon"),
+      links = document.querySelectorAll(".link");
+
+    pwShowHide.forEach(eyeIcon => {
+      eyeIcon.addEventListener("click", () => {
+        let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+        pwFields.forEach(password => {
+          if (password.type === "password") {
+            password.type = "text";
+            eyeIcon.classList.replace("bx-hide", "bx-show");
+            return;
+          }
+          password.type = "password";
+          eyeIcon.classList.replace("bx-show", "bx-hide");
+        })
+
+      })
+    })
+
+    links.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault(); //preventing form submit
+        forms.classList.toggle("show-signup");
+      })
+    })
+  </script>
+
+
+
+
+
+
+  <%- include('../include/footer') %>

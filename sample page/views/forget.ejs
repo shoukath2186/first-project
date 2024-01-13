@@ -1,0 +1,22 @@
+<% include('header') %>
+
+
+
+<h1>Forget</h1>
+<% 
+  if(typeof message !=="undefined"){
+    %>
+    <p style="color: red;"><%= message %></p>
+    <%
+  }
+%>
+
+<form action="/forget" method="post" >
+   <input type="email" name="email" placeholder="Enter email">
+   <br><br>
+   <input type="submit" value="Send Reset Link">
+</form>
+
+
+
+<% include('footer') %>

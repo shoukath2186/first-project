@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>otp verification</h1>
+    <% 
+  if(typeof message !=="undefined"){
+    %>
+    <p style="color: red;"><%= message %></p>
+    <%
+  }
+%>
+    <form action="/otpverification" method="post">
+        <input type="text" name="otp" placeholder="Enter OTP">
+        <input type="hidden" name="user_id" value="<%= user_id %>">
+        <input type="hidden" name="motp" value="<%= motp %>">
+       
+        <br><br>
+        <input type="submit" value="<%= resent %>">
+        <br><br>
+        
+      </form>
+      <form action="/otpresend" method="post">
+        <input type="hidden" name="otp" placeholder="Enter OTP">
+        <input type="hidden" name="user_id" value="<%= user_id %>">
+        <input type="hidden" name="motp" value="<%= motp %>">
+       
+        <br><br>
+        <input type="submit" value='Rsend OTP'>
+        <br><br>
+        
+      </form>
+</body>
+</html>

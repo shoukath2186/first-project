@@ -1,0 +1,18 @@
+<% include('header') %>
+
+
+
+<h1>Verification</h1>
+<% 
+  if(typeof message !=="undefined"){
+    %>
+    <p style="color: red;"><%= message %></p>
+    <%
+  }
+%>
+
+<form action="/verification" method="post" >
+   <input type="email" name="email" placeholder="Enter email">
+   <br><br>
+   <input type="submit" value="Send Verification Link">
+</form>

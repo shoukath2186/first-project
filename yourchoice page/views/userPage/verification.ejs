@@ -1,0 +1,46 @@
+<%- include('../include/header') %>
+
+<section class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Email Verification</header>
+            <%
+            if(typeof message !=="undefined"){
+               %>
+               <p  class="form-link" style="color: red;"><%= message %></p>
+              <%
+            }
+          %>
+            <form action="/verification" method="post">
+                <div class="field input-field">
+                    <input type="email" placeholder="Email" class="input" name="email">
+                </div>
+
+                <div class="field button-field">
+                    <button>Send Verification Link</button>
+                </div>
+            </form>
+
+            <div class="form-link">
+                <span>Don't have an account? <a href="/register" >Signup</a></span>
+            </div>
+        </div>
+
+       
+
+        
+
+       
+
+    </div>
+
+    <!-- Signup Form -->
+
+    
+</section>
+
+<!-- JavaScript -->
+
+
+
+<%- include('../include/footer') %>

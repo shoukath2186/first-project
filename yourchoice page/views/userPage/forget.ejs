@@ -1,0 +1,76 @@
+<%- include('../include/header') %>
+
+<section class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Forget</header>
+            <%
+            if(typeof message !=="undefined"){
+               %>
+               <p class="form-link" style="color: red;"><%= message %></p>
+              <%
+            }
+          %>
+            <form action="/forget" method="post">
+                <div class="field input-field">
+                    <input type="email" placeholder="Email" class="input" name="email">
+                </div>
+
+               
+               
+
+                <div class="field button-field">
+                    <button>Send Reset Link</button>
+                </div>
+            </form>
+
+            <div class="form-link">
+                <span>Don't have an account? <a href="/register" >Signup</a></span>
+            </div>
+        </div>
+
+       
+
+        
+
+       
+
+    </div>
+
+    <!-- Signup Form -->
+
+    
+</section>
+
+<!-- JavaScript -->
+<script >
+     const forms = document.querySelector(".forms"),
+     pwShowHide = document.querySelectorAll(".eye-icon"),
+     links = document.querySelectorAll(".link");
+
+     pwShowHide.forEach(eyeIcon => {
+     eyeIcon.addEventListener("click", () => {
+     let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+     pwFields.forEach(password => {
+     if(password.type === "password"){
+        password.type = "text";
+        eyeIcon.classList.replace("bx-hide", "bx-show");
+        return;
+        }
+      password.type = "password";
+       eyeIcon.classList.replace("bx-show", "bx-hide");
+})
+
+})
+})      
+
+links.forEach(link => {
+link.addEventListener("click", e => {
+e.preventDefault(); //preventing form submit
+forms.classList.toggle("show-signup");
+})
+})
+</script>
+
+<%- include('../include/footer') %>

@@ -1,0 +1,21 @@
+<% include('header') %>
+<h1>login page</h1>
+<% 
+  if(typeof message !=="undefined"){
+    %>
+    <p style="color: red;"><%= message %></p>
+    <%
+  }
+%>
+
+<form action="/login" method="post">
+  <input type="email" name="email" placeholder="Enter email">
+  <br><br>
+  <input type="password" name="password" placeholder="Enter password">
+  <br><br>
+  <input type="submit" value="login">
+</form>
+<a href="/forget">forget password</a>
+<br><br>
+<a href="/verification">Verification</a>
+<% include('footer') %>

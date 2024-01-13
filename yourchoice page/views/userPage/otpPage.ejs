@@ -1,0 +1,52 @@
+<%- include('../include/header') %>
+
+<section class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>OTP Verification</header>
+            <%
+            if(typeof message !=="undefined"){
+               %>
+               <p class="form-link" style="color: red;"><%= message %></p>
+              <%
+            }
+          %>
+            <form action="/otpverification" method="post">
+                
+                <div class="field input-field">
+                    <input type="text" placeholder="Enter OTP" class="input" name="otp">
+                    
+                </div>
+                <input type="hidden" name="motp" value="<%= ootp%>">
+                <input type="hidden" name="user_id" value="<%= user_id %>">
+               
+                <div class="field button-field">
+                    <button><%= resent %></button>
+                </div>
+            </form>
+            <form action="/otpresend" method="post">
+               
+                <input type="hidden" name="otp" placeholder="Enter OTP">
+                 <input type="hidden" name="user_id" value="<%= user_id %>">
+                 <input type="hidden" name="motp" value="<%= ootp %>">
+                <div class="field button-field">
+                    <button>Resend OTP</button>
+                </div>
+              </form>
+           
+
+        
+
+       
+
+    </div>
+
+    <!-- Signup Form -->
+
+    
+</section>
+
+<!-- JavaScript -->
+
+
+<%- include('../include/footer') %>
