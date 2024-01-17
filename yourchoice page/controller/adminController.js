@@ -140,7 +140,7 @@ const updateuserstatus=async(req,res)=>{
        if(userdata.blocked){
            updateUser=await User.findByIdAndUpdate(userid, {$set:{blocked:false}},{ new: true });
        } else{
-        updateUser=await User.findByIdAndUpdate(userid, {$set:{blocked:true}},{ new: true });
+           updateUser=await User.findByIdAndUpdate(userid, {$set:{blocked:true}},{ new: true });
        }
 
        res.send({status: 'success', user: updateUser});
@@ -156,20 +156,15 @@ const updateuserstatus=async(req,res)=>{
 const logoutload=async(req,res)=>{
     try {
         req.session.destroy();
-        res.render('login',{message:"logout successfully."});
+        
+        res.redirect('/admin/login')
     } catch (error) {
         console.log(error.message);
     }
 }
 
 //-------------------------------------------------------
-
-
-
-
-
-
-
+ 
 module.exports={
     adminloginload,
     getdata,

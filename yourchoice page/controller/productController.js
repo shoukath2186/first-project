@@ -58,7 +58,7 @@ const getaddingproduct=async(req,res)=>{
             //saving images
 
             for(let i=0;i<req.files.length;i++){
-                const imagesPath=path.join(__dirname,'../1adminpropertice/sharpImage',req.files[i].filename)
+                const imagesPath=path.join(__dirname,'../1adminproperties/sharpImage',req.files[i].filename)
                 
                 await sharp(req.files[i].path).resize(800, 1200, { fit: 'fill' }).toFile(imagesPath);
                 filename.push(req.files[i].filename);
@@ -178,7 +178,7 @@ const geteditProduct = async (req, res) => {
         
         if (req.files && req.files.length > 0) {          
             for (let i = 0; i < Math.min(req.files.length, 4); i++) {               
-                const imagePath = path.join(__dirname, '../1adminpropertice/sharpImage', req.files[i].filename);
+                const imagePath = path.join(__dirname, '../1adminproperties/sharpImage', req.files[i].filename);
                 await sharp(req.files[i].path).resize(800, 1200, { fit: 'fill' }).toFile(imagePath);
                 filenames.push(req.files[i].filename);
             }

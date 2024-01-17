@@ -1,11 +1,15 @@
 const User=require('../model/userModel');
-const mongoose = require('mongoose')
-const bcrypt=require("bcrypt");
 
+const UserOtp=require('../model/userOtpModel');
+
+const mongoose = require('mongoose')
+
+const bcrypt=require("bcrypt");
 
 const userids=require('../config/config')
 
 const nodemailer=require("nodemailer");
+
 const randomstrng=require('randomstring');
 
 const Product=require('../model/productModel');
@@ -53,41 +57,8 @@ const securePassword=async(password1)=>{
     }
 }
 
-//-----------------------email verification-------
 
-// const sendVerificationMail=async(name,email,user_id)=>{
-//     try {
-//         const transporter=nodemailer.createTransport({
-//             host:'smtp.gmail.com',
-//             port:587,
-//             secure:false,
-//             auth:{
-//                 user:userids.useremail,
-//                 pass:userids.userpassword,
-//             }
-//         });
-//         const mailoption={
-//             from:userids.useremail,
-//             to:email,
-//             subject:"for verification mail",
-//             html:`<p>hii ${name}, please click here to <a href="http://localhost:9999/verify?id=${user_id}">verify </a> your mail.</p>`
-//         }
-//         transporter.sendMail(mailoption,(error,info)=>{
-//             if (error) {
-//                 console.log(error);
-//             } else {
-//                 console.log("Email has been sent:-",info.response);
-//             }
-//         })
-//     } catch (error) {
-//         console.log(error.message);
-        
-//     }
-// }
-
-//-------------otp cerification----------------
-
-const sendotp=async(email,otp)=>{
+const sendotp=async(email)=>{
     try {
        const transporter=nodemailer.createTransport({
          host:'smtp.gmail.com',
@@ -100,6 +71,28 @@ const sendotp=async(email,otp)=>{
          }
          
        });
+
+       const otp = `${Math.floor(1000+Math.random()*9000)}`;
+       
+       const hashotp=await securePassword(otp);
+
+       
+        const otpData=new UserOtp({
+            email:email,
+            otp:hashotp,
+
+
+        })
+        
+        await otpData.save();
+
+        
+        
+        setTimeout(async() => {
+            await UserOtp.deleteOne({email:email});
+        }, 60000);
+
+
         const mailoption={
          from:userids.useremail,
          to:email,
@@ -119,42 +112,13 @@ const sendotp=async(email,otp)=>{
       console.log(error.message);
     }
  }
+
 //------------otp generator----------
 
-const userotpverification=async()=>{
-    try {
-        const otp = `${Math.floor(1000+Math.random()*9000)}`;
 
-        
-        return otp
-        
-    } catch (error) {
-        console.log(error.message);
-              
-    }
-}
 
 //------------otp timer----------------
-async function setupOTPTimer() {
-    let secondsRemaining =150;
-    
-  
-    const countdownTimer = setInterval(() => {
-      secondsRemaining -= 1;
-  
-      
-  
-      //return secondsRemaining;
-     
-    }, 1000);
-    setTimeout(() => {
-      clearInterval(countdownTimer);
-     
-    }, 150000);
 
-
-    
-  }
 //------------------
 
 const registerpage=async(req,res)=>{
@@ -165,7 +129,11 @@ const registerpage=async(req,res)=>{
     }
 }
 
+
+
+
 const Joi = require('joi');
+const e = require('express');
 
 // Define schema for email
 const emailSchema = Joi.string().email().required();
@@ -179,7 +147,10 @@ const nameSchema = Joi.string().min(3).max(30).required();
 const getregister=async(req,res)=>{
     try {
 
-
+        const checkUser =await User.findOne({email:req.body.email})
+        if (checkUser) {
+         return res.render("register",{message:'User already exist.'})
+        }
         const { error: emailError } = emailSchema.validate(req.body.email);
     if (emailError) {
         return res.render('register', { messageemil: emailError.details[0].message,email:req.body.email,name:req.body.name,
@@ -205,11 +176,16 @@ const getregister=async(req,res)=>{
     }
 
 
-
+       
 
         
 
        if(req.body.password1 == req.body.password2){
+
+
+        
+
+
         const password=await securePassword(req.body.password1);
         const user=new User({
             name:req.body.name,
@@ -221,20 +197,17 @@ const getregister=async(req,res)=>{
             is_otp:false,
         })
     
-        const userData=await user.save()
+        await user.save()
         
         
-        if (userData) {
-            const otp=await userotpverification();
-            
-            //setupOTPTimer();
-            const viting=await User.updateOne({_id:userData._id},{$set:{is_otp:true}});
-            sendotp(userData.email,otp);
-
-            res.render('otpPage',{message:'Send your otp.',user_id:userData._id,ootp:otp,resent:"Submit"})
-        } else {
-            res.render("register",{message:"User registration faild"});
-        }
+        
+        
+        await sendotp(req.body.email);
+        
+        
+        res.redirect(`/otppage?email=${req.body.email}`);
+        
+       
           
           
        }else{
@@ -250,31 +223,94 @@ const getregister=async(req,res)=>{
 }
 //----------------otp controller------------
 
-const getinotp=async(req,res)=>{
+
+const otppageload=async(req,res)=>{
     try {
-        const otp=req.body.otp;
-        const id=req.body.user_id;
-        const motp=req.body.motp;
+        res.render('otpPage',{message:'Send your otp.'})
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
+
+const otpresend=async(req,res)=>{
+    try {
+
         
-        const userdata=await User.findOne({_id:id});
-        if (userdata) {
+        const email=req.query.email
+        console.log(email); 
+
+        await sendotp(email);
+        
+        
+       
+    } catch (error) {
+        console.log(error.message);
+    }
+
+}
+//-------------------------------------
+
+const checkOtppage=async(req,res)=>{
+    try {
+        
+        const email=req.query.email;
+        const otp=req.query.otp;
+        
+
+       const userdata= await UserOtp.findOne({email:email});
+       if(userdata){
+        
+        const hashotp= await bcrypt.compare(otp,userdata.otp)
+
+       if (hashotp) {
+        res.send({status : 'success',updated:true});
+       } else {
+        res.send({status : 'fail',updated:true});
+       }
+        
+
+       
             
-            if(userdata.is_otp == true&& otp == motp ){
-                
+        
+    }else{
+        res.send({status:'fail',updated:true});
+    }
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
-                const a=await User.updateOne({_id:id},{$set:{otp_verify:true}});
-                
-               // sendVerificationMail(userdata.name,userdata.email,userdata._id);
-                
-                res.render("login",{message:"user registration has been successfully."})
-            }else{
 
-                res.render("otpPage",{message:"OTP is not match.",user_id:id,ootp:motp,resent:"Submit" });
 
+const verifyotp=async(req,res)=>{
+    try {
+        
+        const email=req.query.email;
+        const otp=req.body.otp;
+        
+        if(!email){
+            return res.render("register",{messagepass:"Please Register."})
+        }
+        const userdata=await UserOtp.findOne({email:email})
+        
+        if(userdata){
+            
+            const hashotp=await bcrypt.compare(otp,userdata.otp)
+
+             if (hashotp) {
                 
-            }
-        } else {
-            res.render("otpPage",{message:"User phone number not valid",user_id:id,ootp:motp,resent:"Submit"});
+                await User.updateOne({email:email},{$set:{otp_verify:true}})
+                
+                res.render('login',{message:'Otp verified Successfully.'})
+             } else {
+                 res.render('otpPage',{message:"Otp doesn't match."})
+             }
+        }else{
+            res.render("register",{messagepass:"User not valid."})
         }
 
         
@@ -283,20 +319,10 @@ const getinotp=async(req,res)=>{
         
     }
 }
-const otpresend=async(req,res)=>{
-    try {
-        const gotp=await userotpverification();
-        const id=req.body.user_id;
-        const userdata=await User.findOne({_id:id})
-        sendotp(userdata.email,gotp);
-        setupOTPTimer();
-        await User.updateOne({_id:userdata._id},{$set:{is_otp:true}});
-        res.render('otpPage',{message:"Resend successful.",user_id:id,ootp:gotp,resent:"Submit" });
-    } catch (error) {
-        console.log(error.message);
-    }
 
-}
+
+
+
 
 //---------------
 const mailverify=async(req,res)=>{
@@ -318,6 +344,10 @@ const loginload=async(req,res)=>{
         
     }
 }
+
+
+
+
 const verifylogin=async(req,res)=>{
     try {
         const email=req.body.email;
@@ -330,9 +360,11 @@ const verifylogin=async(req,res)=>{
           if (userdata.blocked==false) {
 
             if(userdata.otp_verify === false){
-               res.render('login',{message:'Please veryify your otp.'})
+
+               res.render('login',{message:"Email not verified."})
             }else{
                  req.session.user_id=userdata._id;
+
                  res.render('index',{user_id:userdata});
             }
         }else{
@@ -450,13 +482,19 @@ const forgetVerify=async(req,res)=>{
     try {
         const email=req.body.email;
         const userData=await User.findOne({email:email});
+
+        if(userData.otp_verify === false){
+            return res.render('forget',{message:"Email not verified."});
+        }
+
+
         if(userData){
                            
                 const randomStrng=randomstrng.generate();
                 await User.updateOne({email:email},{$set:{token:randomStrng}});
                 
                 sendVerificationpassword(userData.name,userData.email,randomStrng);
-                res.render("forget",{message:"Please check your mail to reset your password."})
+                res.render("login",{message:"Please check your mail to reset your password."});
         }else{
             res.render('forget',{message:"Email is incorrect."});
         }
@@ -480,6 +518,7 @@ const forgetpassword=async(req,res)=>{
         console.log(error.message);
     }
 }
+
 const resetpassword=async(req,res)=>{
     try {
         
@@ -493,18 +532,18 @@ const resetpassword=async(req,res)=>{
         if (isPasswordStrong) {
         const user_id=req.body.user_id;
         const userdata=await User.findOne({_id:user_id});
+
+
+
         req.session.user_id=userdata._id;
         const sequrepassword=await securePassword(password);
         
 
-        await User.findByIdAndUpdate({_id:user_id},{$set:{password:sequrepassword}});
+        await User.findByIdAndUpdate({_id:user_id},{$set:{password:sequrepassword,is_otp:true}});
         
         res.redirect('index');
         }else{
-            const user_id=req.body.user_id;
-            
-            
-             
+            const user_id=req.body.user_id;           
             res.render("forget-password",{message:"Password is not strong enough(Strong@123).",user_id:user_id});
         }
 
@@ -537,17 +576,7 @@ const sendverificationlink=async(req,res)=>{
         console.log(error.message);
     }
 }
-//-----------------------home----------------------------
 
-// const mainhome=async(req,res)=>{
-//     try {
-//         //res.render("index");
-
-//     } catch (error) {
-        
-//     }
-     
-// }
 
 
 const shopload = async (req, res) => {
@@ -580,6 +609,9 @@ const shopload = async (req, res) => {
 
             return isProductListed && productCategory;
         });
+        
+
+
         res.render('shop', {
             Categories: listedCategory,
             products: listProduct,
@@ -590,6 +622,86 @@ const shopload = async (req, res) => {
         console.log(error.message);
     }
 };
+
+const descendingShopload = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.session.user_id });
+        const categId = req.query.categid;
+
+        let products = [];
+
+        if (categId) {
+            const categoryId = new mongoose.Types.ObjectId(categId);
+            products = await Product.find({ category: categoryId }).populate('category').sort('-price');
+        } else {
+            products = await Product.find({}).populate('category').sort('-price');
+        }
+
+        const Categdata = await Category.find({});
+        
+        const listedCategory = Categdata.filter((categ) => categ.is_listed === true);
+        
+        const listProduct = products.filter((product) => {
+            const isProductListed = product.is_listed === true;
+
+            const productCategory = listedCategory.find((category) =>
+                category.name === product.category.name && category.is_listed === true
+            );
+
+            return isProductListed && productCategory;
+        });
+
+        res.render('shop', {
+            Categories: listedCategory,
+            products: listProduct,
+            user,
+        });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const assentingShopload = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.session.user_id });
+        const categId = req.query.categid;
+
+        let products = [];
+
+        if (categId) {
+            const categoryId = new mongoose.Types.ObjectId(categId);
+            products = await Product.find({ category: categoryId }).populate('category').sort('price');
+        } else {
+            products = await Product.find({}).populate('category').sort('price');
+        }
+
+        const Categdata = await Category.find({});
+        
+        const listedCategory = Categdata.filter((categ) => categ.is_listed === true);
+        
+        const listProduct = products.filter((product) => {
+            const isProductListed = product.is_listed === true;
+
+            const productCategory = listedCategory.find((category) =>
+                category.name === product.category.name && category.is_listed === true
+            );
+
+            return isProductListed && productCategory;
+        });
+
+        res.render('shop', {
+            Categories: listedCategory,
+            products: listProduct,
+            user,
+        });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
 
 
 const aboutload=async(req,res)=>{
@@ -672,7 +784,9 @@ const detailsload=async(req,res)=>{
 module.exports={
     registerpage,
     getregister,
-    getinotp,
+    otppageload,
+    checkOtppage,
+    verifyotp,
     otpresend,
     mailverify,
     loginload,
@@ -690,6 +804,8 @@ module.exports={
     //---------------home-------------------
     //mainhome,
     shopload,
+    descendingShopload,
+    assentingShopload,
     aboutload,
     shopdetailsload,
     shoppingcartload,

@@ -5,6 +5,7 @@ const Category=require('../model/categoryMode');
 const User=require('../model/userModel');
 
 const config=require('../config/config');
+const product = require('../model/productModel');
 
 
 const getaddcategory=async(req,res)=>{
@@ -76,7 +77,7 @@ const geteditcategory=async(req,res)=>{
         
         if(existingCategory&& existingCategory._id.toString() !==req.body.id ){
             req.flash('message','Ctegory alredy exists.');
-            return res.redirect('/admin/editcategory?categid='+req.body.id)
+            return res.redirect('/admin/editcategory?categid='+req.body.id);
 
         }
         await Category.findByIdAndUpdate({_id: req.body.id},{name: req.body.categoryName.toUpperCase(),description:req.body.description});
@@ -89,7 +90,9 @@ const geteditcategory=async(req,res)=>{
 const deletecateg=async(req,res)=>{
     try {
         const productId = req.params.id;
-        await Category.deleteOne({_id:productId});
+        const productdata=await Category.findOne({_id:productId})
+        await Category.deleteOne({_id:productdata._id});
+        await product.deleteOne({category:productId})
 
         res.redirect('/admin/orders');
        

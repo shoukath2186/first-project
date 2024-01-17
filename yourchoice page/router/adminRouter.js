@@ -16,7 +16,9 @@ admin_router.use(flash())
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
-        cb(null, path.join(__dirname,'..',"1adminpropertice","publicImages"));
+        
+        cb(null, path.join(__dirname,'..',"1adminproperties","publicImages"));
+        
     },
     filename:function(req,file,cb){        
         const name = Date.now() + '-' + file.originalname
@@ -32,7 +34,9 @@ const session=require('express-session');
 
 
 const config=require('../config/config');
-admin_router.use(session({secret:config.adminsessionSecret}));
+admin_router.use(session({secret:config.adminsessionSecret,
+    resave: false,
+    saveUninitialized: false}));
 
 const auth=require("../middleware/adminauth")
 

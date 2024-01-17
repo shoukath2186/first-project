@@ -4,49 +4,195 @@
     <div class="form login">
         <div class="form-content">
             <header>OTP Verification</header>
-            <%
-            if(typeof message !=="undefined"){
-               %>
-               <p class="form-link" style="color: red;"><%= message %></p>
-              <%
-            }
-          %>
-            <form action="/otpverification" method="post">
+            
+            <form method="post" id="otpform" >
+                <% if (typeof message !== "undefined") { %>
+                    <p class="form-link message" style="color: red;" id="otpsuccess"><%= message %></p>
+                <% } %>
                 
                 <div class="field input-field">
-                    <input type="text" placeholder="Enter OTP" class="input" name="otp">
+                    <input type="text" placeholder="Enter OTP" class="input" name="otp" id="otpNumber">
                     
                 </div>
-                <input type="hidden" name="motp" value="<%= ootp%>">
-                <input type="hidden" name="user_id" value="<%= user_id %>">
-               
+                <p class="form-link" style="color: red;" id="otpError"></p>
                 <div class="field button-field">
-                    <button><%= resent %></button>
+                    <button type="submit">Submit</button>
+                    
                 </div>
+                <div class="form-link" id="countdown">Expires in: 61 seconds</div>
+                <div class="field button-field" hidden id='resendBtn'>
+                    <a href=""><p class="form-link" style="color: blue;" id='resend' onclick="reSendOtp()">Resend Otp</p></a>
+                </div>
+                
             </form>
-            <form action="/otpresend" method="post">
-               
-                <input type="hidden" name="otp" placeholder="Enter OTP">
-                 <input type="hidden" name="user_id" value="<%= user_id %>">
-                 <input type="hidden" name="motp" value="<%= ootp %>">
-                <div class="field button-field">
-                    <button>Resend OTP</button>
-                </div>
-              </form>
-           
-
-        
-
-       
-
+        </div>
     </div>
-
-    <!-- Signup Form -->
-
-    
 </section>
 
-<!-- JavaScript -->
 
+   
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const otpForm = document.getElementById("otpform");
+
+    otpForm.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const checking = await validateForm(); // Wait for the asynchronous operation
+
+           //console.log(checking);
+           if (checking) {
+
+             const dataa=await CheckOtp();
+             
+             if (!dataa) {
+                 //const phoneNumberInput = document.getElementById('otpNumber');
+                  const phoneError = document.getElementById('otpError');
+                  phoneError.innerText = 'otp not match.';
+                  
+            
+                 } else {
+                 // Proceed with the form submission
+                otpForm.submit();
+              }
+
+           }
+
+        
+    });
+
+    async function validateForm() {
+        const phoneNumberInput = document.getElementById('otpNumber');
+        const phoneError = document.getElementById('otpError');
+        const otpError = document.getElementById('otpsuccess');
+                  otpError.innerText = '';
+
+        const phoneNumber = phoneNumberInput.value.trim();
+         let check;
+        if (phoneNumber === '' ) {
+            phoneError.innerText = 'OTP is required';
+             check=true
+             return false
+             
+        }
+        if (isNaN(phoneNumber)) {
+             phoneError.innerText = 'Otp must be a number.';
+             check=true
+             return false
+             } 
+        else {
+            phoneError.innerText = '';
+            
+            check=false
+             
+        }
+        if (!check) {
+            
+            return true
+        }
+    }
+
+    async function CheckOtp() {
+        try {
+            const otp = document.querySelector('.input');
+            const otpdata = otp.value;
+            const email = getQueryParam('email');
+
+            const response = await fetch(`/checkOtppage?email=${email}&otp=${otpdata}`, {
+                method: 'post'
+            });
+
+            const data = await response.json(); // Await the asynchronous operation
+            //console.log(data.status);
+            if (data.status === 'success') {
+                // Perform additional verification if needed
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            //return false;
+        }
+    }
+});
+
+</script>
+
+
+
+<script>
+    let countdownTime = 60;
+    let countdownInterval;
+
+    function updateTimer() {
+        document.getElementById('countdown').innerText = "Expires in: " + countdownTime + ' seconds';
+    }
+
+    function startCountdown() {
+        updateTimer();
+
+        countdownInterval = setInterval(() => {
+            countdownTime--;
+
+            updateTimer();
+            if (countdownTime === 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('resendBtn').removeAttribute('hidden');
+                document.getElementById('validateBtn').setAttribute('disabled', 'true');
+            }
+        }, 1000);
+    }
+
+    
+
+    function getQueryParam(paramName){
+        const param=new URLSearchParams(window.location.search);
+        return param.get(paramName);
+    }
+
+    function reSendOtp() {
+        const email = getQueryParam('email');
+        //console.log(email);
+        const otpError = document.getElementById('otpsuccess');
+        otpError.innerText = 'OTP Resend successfully.';
+        
+        // Ensure that the URL is properly constructed
+        fetch(`/ResendOtppage?email=${email}`, {
+            method: 'post'
+        })
+        .then(response => {
+            //console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            // Reset countdown and hide the "Resend Otp" button
+            
+
+            
+
+
+            countdownTime = 10;
+            document.getElementById('resendBtn').setAttribute('hidden', 'true');
+            document.getElementById('validateBtn').removeAttribute('disabled');
+
+            // Start the countdown again
+            
+            
+
+
+            startCountdown();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', startCountdown);
+</script>
 
 <%- include('../include/footer') %>
+

@@ -249,7 +249,7 @@
                                     </svg>
 
                                 </span>
-                                <span class="nav-link-text">Product</span>
+                                <span class="nav-link-text">Category</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
 
@@ -265,7 +265,7 @@
                                     </svg>
                                 </span>
 
-                                <span class="nav-link-text">Add Product</span>
+                                <span class="nav-link-text">Product</span>
                             </a><!--//nav-link-->
                         </li><!--//nav-item-->
 
@@ -449,212 +449,134 @@
                         aria-labelledby="orders-all-tab">
                         <div class="app-card app-card-orders-table ">
                             <div class="app-card-body">
-                                <div  class="table-responsive" style="display: flex; background-color:#f5f6fe; width: 100%;">
-                                 <div style="width: 50%; ">
+                                <div class="table-responsive"
+                                    style="display: flex; background-color:#f5f6fe; width: 100%;">
+                                    <div style="width: 50%; ">
+
+
+
+
+
+
+                                        <form method="post" style="background-color:#f5f6fe;"
+                                            enctype="multipart/form-data" id="productForm">
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Product Name</h3>
+                                                <p></p>
+                                                <input type="text" name="productName"
+                                                    class="form-control file-upload-info" placeholder="ProductName"
+                                                    value="<%= locals.productName%>" required>
+                                                <p class="form-link productName" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Description</h3>
+                                                <p></p>
+                                                <input type="text" name="discription"
+                                                    class="form-control file-upload-info" placeholder="Description"
+                                                    value="<%= locals.discription%>" required>
+                                                <p class="form-link discription" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Quantity</h3>
+                                                <p></p>
+                                                <input type="number" name="quantity"
+                                                    class="form-control file-upload-info" placeholder="Quantity"
+                                                    value="<%= locals.quantity%>" required>
+                                                <% if(typeof messageqty !=="undefined" ){ %>
+                                                    <p style="color: red;">
+                                                        <%= messageqty %>
+                                                    </p>
+                                                    <% } %>
+                                                        <p class="form-link quantity" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Price</h3>
+                                                <p></p>
+                                                <input type="text" name="price" class="form-control file-upload-info"
+                                                    placeholder="Price" value="<%= locals.price%>" required>
+
+                                                <% if(typeof messageprice !=="undefined" ){ %>
+                                                    <p style="color: red;">
+                                                        <%= messageprice %>
+                                                    </p>
+                                                    <% } %>
+                                                        <p class="form-link price" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">File upload</h3>
+                                                
+                                                <p></p>
+                                                <!-- <input type="file" name="image" id="imageInput" multiple required> -->
+                                                <input type="file" name="image" id="imageInput" multiple required onchange="previewImages(this)">
+                                                
+                                                <% if(typeof message !=="undefined" ){ %>
+                                                    <p style="color: red;">
+                                                        <%= message %>
+                                                    </p>
+                                                    <% } %>
+                                                        
+                                            </div>
+                                            <br>
+
+                                            <div class="col-auto" style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Category</h3>
+                                                <p></p>
+                                                <select name="categorys" class="form-select w-auto" required>
+                                                    <% categorys.forEach(categorys=>{%>
+                                                        <option>
+                                                            <%= categorys.name %>
+                                                        </option>
+                                                        <%})%>
+                                                </select>
+                                                <p class="form-link categorys" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <div style="background-color:#f5f6fe;">
+                                                <h3 class="app-card-title">Brand</h3>
+                                                <p></p>
+                                                <input type="text" name="brand" class="form-control file-upload-info"
+                                                    placeholder="Brand" value="<%= locals.brand%>" required>
+                                                <p class="form-link brand" style="color: red;"></p>
+                                            </div>
+                                            <br>
+
+                                            <br>
+
+                                            <p style="color: red;" id="generalError"></p>
+
+
+                                            <button type="submit" class="btn bg-success"
+                                                style="width: 200px;">Submit</button>
+                                        </form>
+
+                                        
+
+
+
+                                        <br><br>
+                                        <a href="addproduct"><button class="btn  bg-danger"
+                                                style="width: 200px;">Cancel</button></a>
+                                    </div>
+                                    <div style="width: 50%; margin-left: 20px;">
+                                        <div style="background-color:#f5f6fe; width:100%;height:auto;">
+                                            <h1 class="app-card-title">Images</h1>
+                                            <div id="imagePreviewContainer"></div>
+                                        </div>
+                                    </div>
                                     
-                                    
-
-
-                                    
-
-  <form method="post" style="background-color:#f5f6fe;" enctype="multipart/form-data" id="productForm">
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Product Name</h3>
-      <p></p>
-      <input type="text" name="productName" class="form-control file-upload-info" placeholder="ProductName" value="<%= locals.productName%>" required>
-      <p class="form-link productName" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Description</h3>
-      <p></p>
-      <input type="text" name="discription" class="form-control file-upload-info" placeholder="Description" value="<%= locals.discription%>" required>
-      <p class="form-link discription" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Quantity</h3>
-      <p></p>
-      <input type="number" name="quantity" class="form-control file-upload-info" placeholder="Quantity" value="<%= locals.quantity%>" required>
-      <%
-                                        if(typeof messageqty !=="undefined"){
-                                           %>
-                                           <p  style="color: red;"><%= messageqty %></p>
-                                          <%
-                                        }
-                                      %>
-      <p class="form-link quantity" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Price</h3>
-      <p></p>
-      <input type="text" name="price" class="form-control file-upload-info" placeholder="Price" value="<%= locals.price%>" required>
-      
-      <%
-                                        if(typeof messageprice !=="undefined"){
-                                           %>
-                                           <p  style="color: red;"><%= messageprice %></p>
-                                          <%
-                                        }
-                                      %>
-                                      <p class="form-link price" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">File upload</h3>
-      <p></p>
-      <input type="file" name="image" id="imageInput" multiple required>
-      <%
-      if(typeof message !=="undefined"){
-         %>
-         <p  style="color: red;"><%= message %></p>
-        <%
-      }
-    %>
-      <p class="form-link image" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div class="col-auto" style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Category</h3>
-      <p></p>
-      <select name="categorys" class="form-select w-auto" required>
-        <% categorys.forEach(categorys=>{%>
-          <option ><%= categorys.name %></option>
-        <%})%>
-      </select>
-      <p class="form-link categorys" style="color: red;"></p>
-    </div>
-    <br>
-
-    <div style="background-color:#f5f6fe;">
-      <h3 class="app-card-title">Brand</h3>
-      <p></p>
-      <input type="text" name="brand" class="form-control file-upload-info" placeholder="Brand" value="<%= locals.brand%>" required>
-      <p class="form-link brand" style="color: red;"></p>
-    </div>
-    <br>
-                                       
-                                        <br>
-
-    <p style="color: red;" id="generalError"></p>
-    
-
-    <button type="submit" class="btn bg-success" style="width: 200px;">Submit</button>
-  </form>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('productForm');
-
-      form.addEventListener('submit', function (event) {
-        let valid = true;
-
-        // Validate Product Name
-        const productNameInput = document.querySelector('input[name="productName"]');
-        if (productNameInput.value.trim() === '') {
-          showError(productNameInput, 'Product Name is required');
-          valid = false;
-        } else {
-          hideError(productNameInput);
-        }
-
-        // Validate Description
-        const descriptionInput = document.querySelector('input[name="discription"]');
-        if (descriptionInput.value.trim() === '') {
-          showError(descriptionInput, 'Description is required');
-          valid = false;
-        } else {
-          hideError(descriptionInput);
-        }
-
-        // Validate Quantity
-        const quantityInput = document.querySelector('input[name="quantity"]');
-        if (quantityInput.value.trim() === '' || isNaN(quantityInput.value.trim())) {
-          showError(quantityInput, 'Quantity must be a number');
-          valid = false;
-        } else {
-          hideError(quantityInput);
-        }
-
-        // Validate Price
-        const priceInput = document.querySelector('input[name="price"]');
-        if (priceInput.value.trim() === '' || isNaN(priceInput.value.trim())) {
-          showError(priceInput, 'Price must be a number');
-          valid = false;
-        } else {
-          hideError(priceInput);
-        }
-
-        // Validate Image
-        const imageInput = document.querySelector('input[name="image"]');
-        const allowedExtensions = ['jpg', 'jpeg', 'png'];
-        const fileExtension = imageInput.value.split('.').pop().toLowerCase();
-        if (!allowedExtensions.includes(fileExtension)) {
-          showError(imageInput, 'Invalid file type. Only JPG, JPEG, and PNG are allowed.');
-          valid = false;
-        } else {
-          hideError(imageInput);
-        }
-
-        // Validate Category
-        const categorysInput = document.querySelector('select[name="categorys"]');
-        if (categorysInput.value.trim() === '') {
-          showError(categorysInput, 'Category is required');
-          valid = false;
-        } else {
-          hideError(categorysInput);
-        }
-
-        // Validate Brand
-        const brandInput = document.querySelector('input[name="brand"]');
-        if (brandInput.value.trim() === '') {
-          showError(brandInput, 'Brand is required');
-          valid = false;
-        } else {
-          hideError(brandInput);
-        }
-
-        if (!valid) {
-          event.preventDefault(); // Prevent form submission if validation fails
-        }
-      });
-
-      // Function to show error message
-      function showError(input, message) {
-        const errorElement = input.parentElement.querySelector('.form-link');
-        errorElement.innerHTML = message;
-      }
-
-      // Function to hide error message
-      function hideError(input) {
-        const errorElement = input.parentElement.querySelector('.form-link');
-        errorElement.innerHTML = '';
-      }
-    });
-  </script>
 
 
 
-                                    <br><br>
-                                    <a href="addproduct"><button  class="btn  bg-danger" style="width: 200px;">Cancel</button></a>
-                                </div>
-                            <div style="width: 50%; margin-left: 20px;">
-                                <div style="background-color:#f5f6fe; width:100%;height:auto;">
-                                    <h1 class="app-card-title">Images</h1>
-                                    <div id="imagePreviewContainer"></div>
-                                </div>
-                            </div>
 
-
-
-                                 
-                                    
                                 </div><!--//table-responsive-->
 
                             </div><!--//app-card-body-->
@@ -663,9 +585,9 @@
 
                     </div><!--//tab-pane-->
 
-                    
 
-                    
+
+
                 </div><!--//tab-content-->
 
 
@@ -685,11 +607,117 @@
 
     <!-- Page Specific JS -->
     <script src="/js/app.js"></script>
+
+    <style>
+        #imagePreviewContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
     
+        .preview-image {
+            width: 45%; /* Set the width of each preview image */
+            height: auto; /* Maintain aspect ratio */
+            margin-top: 50px; /* Add some spacing between images */
+            margin-left: 15px;
+        }
+    </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productForm = document.getElementById('productForm');
+
+        productForm.addEventListener('submit', function (event) {
+            let isValid = true;
+
+            // Product Name Validation
+            const productName = document.querySelector('[name="productName"]');
+            const productNameError = document.querySelector('.productName');
+            if (productName.value.trim() === '') {
+                productNameError.textContent = 'Product Name is required.';
+                isValid = false;
+            } else {
+                productNameError.textContent = '';
+            }
+
+            // Description Validation
+            const description = document.querySelector('[name="discription"]');
+            const descriptionError = document.querySelector('.discription');
+            if (description.value.trim() === '') {
+                descriptionError.textContent = 'Description is required.';
+                isValid = false;
+            } else {
+                descriptionError.textContent = '';
+            }
+
+            // Validate Price
+            const price = document.querySelector('[name="price"]');
+            const priceError = document.querySelector('.price');
+               if (price.value.trim() === '' || isNaN(price.value.trim())) {
+                 
+                 priceError.textContent = 'Price must be a number';
+                 isvalid = false;
+               } else {
+                priceError.textContent = '';
+               }
+
+            // Brand Validation
+            const brand = document.querySelector('[name="brand"]');
+            const brandError = document.querySelector('.brand');
+            if (brand.value.trim() === '') {
+                brandError.textContent = 'Brand is required.';
+                isValid = false;
+            } else {
+                brandError.textContent = '';
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
     
-   
+    <script>
+        function previewImages(input) {
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            previewContainer.innerHTML = ''; // Clear previous previews
     
+            if (input.files) {
+                const files = input.files;
     
+                for (const file of files) {
+                    const reader = new FileReader();
+    
+                    reader.onload = function (e) {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = e.target.result;
+                        imgElement.className = 'preview-image';
+                        previewContainer.appendChild(imgElement);
+                    };
+    
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            // Your existing code...
+    
+            const form = document.getElementById('productForm');
+    
+            form.addEventListener('submit', function (event) {
+                // Your existing validation code...
+    
+                if (!valid) {
+                    event.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+        });
+    </script>
+
+
+
 
 </body>
 

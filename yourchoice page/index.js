@@ -11,7 +11,7 @@ const path = require('path')
 // app.use(express.static(path.join(__dirname,'1adminpropertice')));
 app.use(express.static(path.join(__dirname, "2homeproperties")));
 
-app.use(express.static(path.join(__dirname, "1adminpropertice")));
+app.use(express.static(path.join(__dirname, "1adminproperties")));
 
 //----------user page----------------
 const router = require('./router/userRouter')
@@ -24,7 +24,6 @@ const adminrouter = require('./router/adminRouter')
 app.use('/', adminrouter);
 
 
-
 //-----asets------------------
 
 
@@ -34,7 +33,7 @@ app.use('/', adminrouter);
 
 const port = 9999;
 app.listen(port, () => {
-    console.log(`surver port http://localhost:${port} `);
+    console.log(`surver port http://localhost:${port}`);
 })
 
 

@@ -16,7 +16,9 @@ user_router.use(express.static(path.join(__dirname, "2homeproperties")));
 
 const session=require('express-session');
 const config=require('../config/config');
-user_router.use(session({secret:config.sessionSecret}));
+user_router.use(session({secret:config.sessionSecret,
+    resave: false,
+    saveUninitialized: false}));
 
 
 const controller=require('../controller/userController');
@@ -25,9 +27,11 @@ user_router.get('/register',auth.islogout,controller.registerpage);
 
 user_router.post('/register',controller.getregister);
 
-user_router.post('/otpverification',controller.getinotp);
+user_router.post('/otppage',controller.verifyotp);
 
-user_router.post('/otpresend',auth.islogout,controller.otpresend)
+user_router.post('/checkOtppage',controller.checkOtppage);
+
+user_router.post('/ResendOtppage',controller.otpresend);
 
 user_router.get('/verify',controller.mailverify);
 
@@ -36,6 +40,8 @@ user_router.get('/',controller.homeload);
 user_router.get('/home',controller.homeload);
 
 user_router.get('/login',auth.islogout,controller.loginload);
+
+user_router.get('/otppage',auth.islogout,controller.otppageload);
 
 user_router.post('/login',controller.verifylogin);
 
@@ -62,6 +68,10 @@ user_router.post('/verification',controller.sendverificationlink);
 //---------------------------home-------------------
 
 user_router.get('/shop',controller.shopload);
+
+user_router.get('/descendingShop',controller.descendingShopload);
+
+user_router.get('/assentingShop',controller.assentingShopload)
 
 user_router.get('/about',auth.islogin,controller.aboutload);
 
