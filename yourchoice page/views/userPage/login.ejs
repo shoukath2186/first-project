@@ -11,26 +11,30 @@
               <%
             }
           %>
-            <form action="/login" method="post">
-                <div class="field input-field">
-                    <input type="email" placeholder="Email" class="input" name="email">
-                </div>
-
-                <div class="field input-field">
-                    <input type="password" placeholder="Password" class="password" name="password">
-                    <i class='bx bx-hide eye-icon'></i>
-                </div>
-
-                <div class="form-link">
-                    <a href="/forget" class="forgot-pass">Forgot password?</a>
-                </div>
-
-                <div class="field button-field">
-                    <button>Login</button>
-                </div>
-                <div class="form-link">
-                    <a href="/verifyemail" class="forgot-pass">Verify email</a>
-                </div>
+            
+                <form action="/login" method="post" id="loginForm">
+                    <div class="field input-field">
+                        <input type="email" placeholder="Email" class="input" name="email" id="emailInput"  value="<%= locals.email %>">
+                        
+                    </div>
+                    <p id="emailError" class="form-link" style="color: red;"><%= locals.emailmessage %></p>
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password" name="password" id="passwordInput" value="<%= locals.pass %>">
+                        <i class='bx bx-hide eye-icon'></i>
+                        
+                    </div>
+                    <p id="passwordError" class="form-link" style="color: red;"><%= locals.passmessage %></p>
+                    <div class="form-link">
+                        <a href="/forget" class="forgot-pass">Forgot password?</a>
+                    </div>
+                
+                    <div class="field button-field">
+                        <button type="button" onclick="validateForm()">Login</button>
+                    </div>
+                
+                    <div class="form-link">
+                        <a href="/verifyemail" class="forgot-pass">Verify email</a>
+                    </div>
             </form>
 
             <div class="form-link">
@@ -50,6 +54,41 @@
 
     
 </section>
+
+<script>
+    function validateForm() {
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        // Reset previous error messages
+        emailError.textContent = '';
+        passwordError.textContent = '';
+
+        // Validate email
+        const emailValue = emailInput.value.trim();
+        if (!isValidEmail(emailValue)) {
+            emailError.textContent = 'Please enter a valid email address';
+            return;
+        }
+
+        // Validate password
+        const passwordValue = passwordInput.value.trim();
+        if (passwordValue.length < 8) {
+            passwordError.textContent = 'Password must be at least 8 characters long';
+            return;
+        }
+
+        // If all validations pass, you can submit the form
+        document.getElementById('loginForm').submit();
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+</script>
 
 <!-- JavaScript -->
 <script >

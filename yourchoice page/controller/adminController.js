@@ -69,22 +69,7 @@ const docsload=async(req,res)=>{
     }
 }
 
-const ordersload=async(req,res)=>{
-    try {
-        const categData=await Category.find({});
-        res.render('orders',{categ:categData});
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 
-const notificationsload=async(req,res)=>{
-    try {
-        res.render('notifications');
-    } catch (error) {
-        console.log(error.message);
-    }
-}
 
 const accountload=async(req,res)=>{
     try {
@@ -120,13 +105,7 @@ const helpload=async(req,res)=>{
 
 
 
-const addcategoryload=async(req,res)=>{
-    try {
-        res.render('addcategory')
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+
 
 const updateuserstatus=async(req,res)=>{
     try {
@@ -163,20 +142,17 @@ const logoutload=async(req,res)=>{
     }
 }
 
-//-------------------------------------------------------
+//----------------orders---------------------------------------
  
 module.exports={
     adminloginload,
     getdata,
     testload,
     docsload,
-    ordersload,
-    notificationsload,
     accountload,
     settingsload,
     chartsload,
     helpload,
     updateuserstatus,
-    addcategoryload,
     logoutload
 };

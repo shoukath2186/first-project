@@ -235,7 +235,7 @@
 
                         <li class="nav-item">
                             <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                            <a class="nav-link" href="orders">
+                            <a class="nav-link" href="category">
                                 <span class="nav-icon">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@
                                             d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Pages</span>
+                                <span class="nav-link-text">Users Roles</span>
                                 <span class="submenu-arrow">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -296,7 +296,7 @@
                             <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                                 <ul class="submenu-list list-unstyled">
                                     <li class="submenu-item"><a class="submenu-link"
-                                            href="notifications">Notifications</a></li>
+                                            href="notifications">Orders</a></li>
                                     <li class="submenu-item"><a class="submenu-link" href="account">Account</a></li>
                                     <li class="submenu-item"><a class="submenu-link" href="settings">Settings</a></li>
                                 </ul>
@@ -435,7 +435,7 @@
 
                 <nav id="orders-table-tab"
                     class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
-                    <a class="flex-sm-fill text-sm-center nav-link" href="orders" role="tab"
+                    <a class="flex-sm-fill text-sm-center nav-link" href="category" role="tab"
                         aria-controls="orders-all">Category</a>
                     <a class="flex-sm-fill text-sm-center nav-link active" href="addcategory" role="tab"
                         aria-controls="orders-paid">Edit Category</a>
@@ -526,6 +526,7 @@
             // Validate Category Name
             const categoryNameInput = document.querySelector('input[name="categoryName"]');
             if (categoryNameInput.value.trim() === '') {
+                categoryNameInput.value=''
               showError(categoryNameInput, 'Category Name is required');
               valid = false;
             } else {
@@ -535,6 +536,7 @@
             // Validate Description
             const descriptionInput = document.querySelector('input[name="description"]');
             if (descriptionInput.value.trim() === '') {
+                descriptionInput.value=''
               showError(descriptionInput, 'Description is required');
               valid = false;
             } else {

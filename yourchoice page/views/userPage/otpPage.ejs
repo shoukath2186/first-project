@@ -48,7 +48,8 @@
              const dataa=await CheckOtp();
              
              if (!dataa) {
-                 //const phoneNumberInput = document.getElementById('otpNumber');
+                 const phoneNumberInput = document.getElementById('otpNumber');
+                 phoneNumberInput.value = '';
                   const phoneError = document.getElementById('otpError');
                   phoneError.innerText = 'otp not match.';
                   
@@ -74,12 +75,14 @@
         if (phoneNumber === '' ) {
             phoneError.innerText = 'OTP is required';
              check=true
+             phoneNumberInput.value = '';
              return false
              
         }
         if (isNaN(phoneNumber)) {
              phoneError.innerText = 'Otp must be a number.';
              check=true
+             phoneNumberInput.value = '';
              return false
              } 
         else {

@@ -21,7 +21,15 @@ user_router.use(session({secret:config.sessionSecret,
     saveUninitialized: false}));
 
 
+
 const controller=require('../controller/userController');
+
+const userController=require('../controller/userCartController');
+
+const profileController=require('../controller/userPfofileController');
+
+
+
 
 user_router.get('/register',auth.islogout,controller.registerpage);
 
@@ -69,17 +77,9 @@ user_router.post('/verification',controller.sendverificationlink);
 
 user_router.get('/shop',controller.shopload);
 
-user_router.get('/descendingShop',controller.descendingShopload);
-
-user_router.get('/assentingShop',controller.assentingShopload)
-
 user_router.get('/about',auth.islogin,controller.aboutload);
 
 user_router.get('/shop-details',auth.islogin,controller.shopdetailsload);
-
-user_router.get('/shopping-cart',auth.islogin,controller.shoppingcartload);
-
-user_router.get('/checkout',auth.islogin,controller.checkoutload);
 
 user_router.get("/blog-details",auth.islogin,controller.blogdetailsload);
 
@@ -88,6 +88,58 @@ user_router.get("/blog",auth.islogin,controller.blogload);
 user_router.get('/contact',auth.islogin,controller.contactload);
 
 user_router.get('/showdetails/:id',controller.detailsload);
+
+//-------------------------cart and user cart and address------------------
+
+user_router.get('/shopping-cart',auth.islogin,userController.shoppingcartload);
+
+user_router.post('/addcart',userController.verifyaddcart);
+
+user_router.post('/addcart/:id',userController.cartload);
+
+user_router.patch('/updateCart',userController.verifyQty);
+
+user_router.post('/cartdelete',userController.verifycartdelete);
+
+user_router.get('/checkout',auth.islogin,userController.checkoutload);
+
+user_router.post('/sigleCheckout',userController.verifySingleCheck);
+
+user_router.post('/addAddress',userController.addAddressverify);
+
+user_router.post('/buyproduct',userController.verifybuyproduct);
+
+//--------------------------------user profile-----------------------------
+
+user_router.get('/userProfile',auth.islogin,profileController.profileLoad);
+
+user_router.get('/editProfile',auth.islogin,profileController.editProfileLoad);
+
+user_router.post('/editProfile',profileController.verifyeditProfile);
+
+user_router.get('/userpassword',auth.islogin,profileController.userpasswordLoad);
+
+user_router.post('/userpassword',profileController.verifypassword);
+
+user_router.get('/userOrder',auth.islogin,profileController.userOrderLoda);
+
+user_router.get('/userOererView',auth.islogin,profileController.OrderdetailLoad);
+
+user_router.post('/userOrderRequst',profileController.verifyOrderRequst);
+
+user_router.get('/addressManage',auth.islogin,profileController.addressManageLoad);
+
+user_router.get('/userAddAddress',auth.islogin,profileController.userAddAddressLoad);
+
+user_router.post('/userAddAddress',profileController.verifyuserAddAddress);
+
+user_router.get('/EditAddAdres',auth.islogin,profileController.verifyEditAddAdres);
+
+user_router.post('/verifyEditAddress',profileController.verifyEditAddress);
+
+user_router.post('/deleteAddress',profileController.verifydeleteAddress);
+
+
 
  
 module.exports=user_router

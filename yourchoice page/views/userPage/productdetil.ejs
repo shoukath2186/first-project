@@ -11,7 +11,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -22,8 +22,11 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <a  href="https://icons8.com/icon/98957/user"></a> 
+    <a href="https://icons8.com/icon/98957/user"></a>
     <a href="https://icons8.com"></a>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
 </head>
 
 <body>
@@ -110,19 +113,20 @@
                                     <li><a href="/checkout">Check Out</a></li>
                                     <li><a href="/shop-details">Shop Details</a></li>
                                     <li><a href="/about">About Us</a></li>
-                                    <li><a href="/contact">Contacts</a></li>                                     
+                                    <li><a href="/contact">Contacts</a></li>
                                     <li><a href="/blog-details">Blog Details</a></li>
                                 </ul>
                             </li>
-                           
-                            
+
+
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-                        <a href="#"><img style="padding-left: 20px;" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt=""/></a>
+                        <!-- <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a> -->
+                        <a href="/userProfile"><img style="padding-left: 20px;"
+                                src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="" /></a>
                         <a href="#"><img src="/img/icon/heart.png" alt=""></a>
                         <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
@@ -151,73 +155,82 @@
                     <!-- /------------------------- -->
 
                     <!-- Include Medium Zoom CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.css">
+                    <link rel="stylesheet"
+                        href="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.css">
 
-<!-- Include Medium Zoom JS -->
-<script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+                    <!-- Include Medium Zoom JS -->
+                    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
 
 
 
-                   <!-- ----------------------------------- -->
+                    <!-- ----------------------------------- -->
 
                     <div class="col-lg-3 col-md-3">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/sharpImage/<%=products.image[0]%>">
-                                       
+                                    <div class="product__thumb__pic set-bg"
+                                        data-setbg="/sharpImage/<%=products.image[0]%>">
+
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/sharpImage/<%=products.image[1]%>">
+                                    <div class="product__thumb__pic set-bg"
+                                        data-setbg="/sharpImage/<%=products.image[1]%>">
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/sharpImage/<%=products.image[2]%>">
+                                    <div class="product__thumb__pic set-bg"
+                                        data-setbg="/sharpImage/<%=products.image[2]%>">
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/sharpImage/<%=products.image[3]%>">
-                                       
+                                    <div class="product__thumb__pic set-bg"
+                                        data-setbg="/sharpImage/<%=products.image[3]%>">
+
                                     </div>
                                 </a>
                             </li>
                         </ul>
-                    </div> 
+                    </div>
 
 
 
 
-                     <div class="col-lg-6 col-md-9">
+                    <div class="col-lg-6 col-md-9">
                         <div class="tab-content">
-                            
-                                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                        <div class="product__details__pic__item">
-                                            <img style="width: 350px;" src="/sharpImage/<%=products.image[0]%>" alt="" data-zoom="/sharpImage/<%=products.image[0]%>">
-                                        </div>
-                                    </div>
-                                    <!-- Repeat for other tabs -->
-                                
+
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[0]%>" alt=""
+                                        data-zoom="/sharpImage/<%=products.image[0]%>">
+                                </div>
+                            </div>
+                            <!-- Repeat for other tabs -->
+
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[1]%>" alt="" data-zoom="/sharpImage/<%=products.image[1]%>">
+                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[1]%>" alt=""
+                                        data-zoom="/sharpImage/<%=products.image[1]%>">
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[2]%>" alt="" data-zoom="/sharpImage/<%=products.image[2]%>">
+                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[2]%>" alt=""
+                                        data-zoom="/sharpImage/<%=products.image[2]%>">
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[3]%>" alt="" data-zoom="/sharpImage/<%=products.image[3]%>">
-                                    
+                                    <img style="width: 350px;" src="/sharpImage/<%=products.image[3]%>" alt=""
+                                        data-zoom="/sharpImage/<%=products.image[3]%>">
+
                                 </div>
                             </div>
                         </div>
@@ -234,7 +247,9 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
                         <div class="product__details__text">
-                            <h4><%=products.name%></h4>
+                            <h4>
+                                <%=products.name%>
+                            </h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -246,49 +261,21 @@
                             <h3>&#8360; <%=products.price%> <span>999.00</span></h3>
                             <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
                                 cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
-                            with placket.</p>
+                                with placket.</p>
                             <div class="product__details__option">
-                                <div class="product__details__option__size">
-                                    <span>Size:</span>
-                                    <label for="xxl">xxl
-                                        <input type="radio" id="xxl">
-                                    </label>
-                                    <label class="active" for="xl">xl
-                                        <input type="radio" id="xl">
-                                    </label>
-                                    <label for="l">l
-                                        <input type="radio" id="l">
-                                    </label>
-                                    <label for="sm">s
-                                        <input type="radio" id="sm">
-                                    </label>
-                                </div>
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    <label class="c-1" for="sp-1">
-                                        <input type="radio" id="sp-1">
-                                    </label>
-                                    <label class="c-2" for="sp-2">
-                                        <input type="radio" id="sp-2">
-                                    </label>
-                                    <label class="c-3" for="sp-3">
-                                        <input type="radio" id="sp-3">
-                                    </label>
-                                    <label class="c-4" for="sp-4">
-                                        <input type="radio" id="sp-4">
-                                    </label>
-                                    <label class="c-9" for="sp-9">
-                                        <input type="radio" id="sp-9">
-                                    </label>
-                                </div>
+
+
                             </div>
                             <div class="product__details__cart__option">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
+                                <form method="post" action="/addcart" onsubmit="return handleFormSubmission(event)">
+                                    <div class="quantity" onclick="quantityupdate('<%= products.quantity %>')">
+                                        <div class="pro-qty">
+                                            <input id="quantityinput" name="qty" type="text" value="1">
+                                        </div>
                                     </div>
-                                </div>
-                                <a href="#" class="primary-btn">add to cart</a>
+                                    <input name="productid" type="hidden" value="<%= products._id %>">
+                                    <button class="primary-btn" type="submit">add to cart</button>
+                                </form>
                             </div>
                             <div class="product__details__btns__option">
                                 <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
@@ -306,21 +293,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                
+                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-5"
-                                    role="tab">Description</a>
+                                        role="tab">Description</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Customer
-                                    Previews(5)</a>
+                                        Previews(5)</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Additional
-                                    information</a>
+                                        information</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -329,7 +317,7 @@
                                         <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
                                             solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
                                             ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.</p>
+                                            pharetras loremos.</p>
                                         <div class="product__details__tab__content__item">
                                             <h5>Products Infomation</h5>
                                             <p>A Pocket PC is a handheld computer, which features many of the same
@@ -338,13 +326,13 @@
                                                 file, coordinate appointments, surf the internet, exchange text messages
                                                 and more. Every product that is labeled as a Pocket PC must be
                                                 accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
+                                                a touchscreen and touchpad.</p>
                                             <p>As is the case with any new technology product, the cost of a Pocket PC
                                                 was substantial during it’s early release. For approximately $700.00,
                                                 consumers could purchase one of top-of-the-line Pocket PCs in 2003.
                                                 These days, customers are finding that prices have become much more
                                                 reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
+                                                $350.00, a new Pocket PC can now be purchased.</p>
                                         </div>
                                         <div class="product__details__tab__content__item">
                                             <h5>Material used</h5>
@@ -354,7 +342,7 @@
                                                 tend to have a shine to them compared to wool and cotton suits, this can
                                                 make the suit look cheap. The texture of velvet is luxurious and
                                                 breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
+                                                worn all year round.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -368,13 +356,13 @@
                                                 file, coordinate appointments, surf the internet, exchange text messages
                                                 and more. Every product that is labeled as a Pocket PC must be
                                                 accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
+                                                a touchscreen and touchpad.</p>
                                             <p>As is the case with any new technology product, the cost of a Pocket PC
                                                 was substantial during it’s early release. For approximately $700.00,
                                                 consumers could purchase one of top-of-the-line Pocket PCs in 2003.
                                                 These days, customers are finding that prices have become much more
                                                 reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
+                                                $350.00, a new Pocket PC can now be purchased.</p>
                                         </div>
                                         <div class="product__details__tab__content__item">
                                             <h5>Material used</h5>
@@ -384,7 +372,7 @@
                                                 tend to have a shine to them compared to wool and cotton suits, this can
                                                 make the suit look cheap. The texture of velvet is luxurious and
                                                 breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
+                                                worn all year round.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -393,7 +381,7 @@
                                         <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
                                             solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
                                             ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.</p>
+                                            pharetras loremos.</p>
                                         <div class="product__details__tab__content__item">
                                             <h5>Products Infomation</h5>
                                             <p>A Pocket PC is a handheld computer, which features many of the same
@@ -402,13 +390,13 @@
                                                 file, coordinate appointments, surf the internet, exchange text messages
                                                 and more. Every product that is labeled as a Pocket PC must be
                                                 accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
+                                                a touchscreen and touchpad.</p>
                                             <p>As is the case with any new technology product, the cost of a Pocket PC
                                                 was substantial during it’s early release. For approximately $700.00,
                                                 consumers could purchase one of top-of-the-line Pocket PCs in 2003.
                                                 These days, customers are finding that prices have become much more
                                                 reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
+                                                $350.00, a new Pocket PC can now be purchased.</p>
                                         </div>
                                         <div class="product__details__tab__content__item">
                                             <h5>Material used</h5>
@@ -418,14 +406,14 @@
                                                 tend to have a shine to them compared to wool and cotton suits, this can
                                                 make the suit look cheap. The texture of velvet is luxurious and
                                                 breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
+                                                worn all year round.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -640,7 +628,7 @@
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
@@ -660,6 +648,68 @@
         </div>
     </div>
     <!-- Search End -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+function showSweetAlert() {
+        return new Promise((resolve) => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Added to Cart!',
+                text: 'You have successfully added the product to your cart.',
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            });
+        });
+    }
+        
+    async function handleFormSubmission(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Show the SweetAlert and wait for user interaction
+        const confirmed = await showSweetAlert();
+
+        // If confirmed, proceed with form submission
+        if (confirmed) {
+            // Submit the form programmatically
+            event.target.submit();
+        }
+    }
+</script>
+
+
+    <script>
+        
+  
+        function quantityupdate( totalquantity) {
+            const quantityinput = document.getElementById("quantityinput");
+            const quantityValue = parseInt(quantityinput.value, 10);
+
+            //console.log(quantityValue);
+            //console.log(totalquantity);
+
+            if (isNaN(quantityValue) || quantityValue <= 0) {
+
+                quantityinput.value = "1";
+
+            } else if (quantityValue > totalquantity) {
+
+                quantityinput.value = totalquantity;
+            }
+
+        }
+
+
+
+
+    </script>
 
     <!-- Js Plugins -->
     <script src="/js/jquery-3.3.1.min.js"></script>
@@ -674,7 +724,7 @@
     <script src="/js/main.js"></script>
 
 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Medium Zoom on all images with the 'data-zoom' attribute

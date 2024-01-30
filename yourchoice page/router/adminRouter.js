@@ -44,46 +44,46 @@ const auth=require("../middleware/adminauth")
 
 const categoryController=require('../controller/categoryController')
 
-const adminContrroller=require('../controller/adminController');
+const adminController=require('../controller/adminController');
 
 const productController=require('../controller/productController')
 
+const orderController=require('../controller/orderController');
 
 
 
-admin_router.get("/admin/login",auth.islogout,adminContrroller.adminloginload);
 
-admin_router.get("/admin",auth.islogout,adminContrroller.adminloginload);
+admin_router.get("/admin/login",auth.islogout,adminController.adminloginload);
 
-admin_router.post('/admin/getadmin',adminContrroller.getdata);
+admin_router.get("/admin",auth.islogout,adminController.adminloginload);
 
-admin_router.get("/admin/index",adminContrroller.testload);
+admin_router.post('/admin/getadmin',adminController.getdata);
 
-admin_router.get('/admin/docs',auth.islogin,adminContrroller.docsload);
+admin_router.get("/admin/index",adminController.testload);
 
-admin_router.get('/admin/orders',auth.islogin,adminContrroller.ordersload);
+admin_router.get('/admin/docs',auth.islogin,adminController.docsload);
 
-admin_router.get("/admin/notifications",auth.islogin,adminContrroller.notificationsload);
+admin_router.get('/admin/account',auth.islogin,adminController.accountload);
 
-admin_router.get('/admin/account',auth.islogin,adminContrroller.accountload);
+admin_router.get('/admin/settings',auth.islogin,adminController.settingsload);
 
-admin_router.get('/admin/settings',auth.islogin,adminContrroller.settingsload);
+admin_router.get('/admin/charts',auth.islogin,adminController.chartsload);
 
-admin_router.get('/admin/charts',auth.islogin,adminContrroller.chartsload);
+admin_router.get('/admin/help',auth.islogin,adminController.helpload);
 
-admin_router.get('/admin/help',auth.islogin,adminContrroller.helpload);
+admin_router.post('/admin/users/:action/:id',adminController.updateuserstatus);
 
-admin_router.get("/admin/addcategory",auth.islogin,adminContrroller.addcategoryload);
-
-admin_router.post('/admin/users/:action/:id',adminContrroller.updateuserstatus);
-
-admin_router.get("/admin/logout",auth.islogin,adminContrroller.logoutload);
+admin_router.get("/admin/logout",auth.islogin,adminController.logoutload);
 
 //-----------------------category-------------------
 
-admin_router.post('/admin/addcategory',categoryController.getaddcategory);
+admin_router.get('/admin/category',auth.islogin,categoryController.ordersload);
 
-admin_router.post('/admin/orders/:action/:id',categoryController.getcategory);
+admin_router.get("/admin/addcategory",auth.islogin,categoryController.addcategoryload);
+
+admin_router.post('/admin/addcategory',categoryController.verifyaddcategory);
+
+admin_router.post('/admin/orders/:action/:id',categoryController.verifyeditcategory);
 
 admin_router.get('/admin/editcategory',auth.islogin,categoryController.editcategoryload);
 
@@ -97,15 +97,23 @@ admin_router.get('/admin/addproduct',auth.islogin,productController.addproductlo
 
 admin_router.get('/admin/addingproduct',auth.islogin,productController.addingproductload);
 
-admin_router.post('/admin/addingproduct',upload,productController.getaddingproduct);
+admin_router.post('/admin/addingproduct',upload,productController.verifyaddingproduct);
 
 admin_router.post('/admin/product/:action/:id',productController.productStatus);
 
 admin_router.get('/admin/editProduct',auth.islogin,productController.editingProduct);
 
-admin_router.post("/admin/editProduct",upload,productController.geteditProduct);
+admin_router.post("/admin/editProduct",upload,productController.verifyEditProduct);
 
 admin_router.get('/admin/deleteproduct/:productId',productController.deleteproduct);
+
+//--------------------------order----------------------------------
+
+admin_router.get("/admin/notifications",auth.islogin,orderController.notificationsload);
+
+admin_router.get('/admin/productview',auth.islogin,orderController.productviewLoad);
+
+admin_router.post('/admin/updateStatus',orderController.verifyupdateStatus);
 
 
 

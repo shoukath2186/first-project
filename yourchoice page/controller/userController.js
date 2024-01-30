@@ -240,7 +240,7 @@ const otpresend=async(req,res)=>{
 
         
         const email=req.query.email
-        console.log(email); 
+        //console.log(email); 
 
         await sendotp(email);
         
@@ -269,12 +269,7 @@ const checkOtppage=async(req,res)=>{
         res.send({status : 'success',updated:true});
        } else {
         res.send({status : 'fail',updated:true});
-       }
-        
-
-       
-            
-        
+       } 
     }else{
         res.send({status:'fail',updated:true});
     }
@@ -371,12 +366,14 @@ const verifylogin=async(req,res)=>{
             res.render('login',{message:'User is blocked.'});
         }
         }else{
-            res.render('login',{message:'password not matched.'})
+            res.render('login',{passmessage:'password not matched.',email:email})
         }
 
             
         } else {
-            res.render('login',{message:"Email is incorrect."})
+            if(email){
+            res.render('login',{emailmessage:"Email is incorrect.",pass:password});
+            }
         }
     } catch (error) {
         console.log(error.message);
@@ -580,42 +577,80 @@ const sendverificationlink=async(req,res)=>{
 
 
 const shopload = async (req, res) => {
+         const Item_page=9;
     try {
         const user = await User.findOne({ _id: req.session.user_id });
-        const categId = req.query.categid;
+        const categId = req.query.categid? req.query.categid:''
+        const search=req.query.search||''
+        const page=parseInt(req.query.page)||1;
+        const skip=(page-1)*Item_page;
+        
+        console.log(search);
+        
+        
 
+        const query={
+            is_listed:true,
+            $or:[{ name:{$regex:search,$options: "i"}}],
+        };
 
-        let products = [];
+         
+
+        
 
         if (categId) {
-            const categoryId = new mongoose.Types.ObjectId(categId);
-            products = await Product.find({ category: categoryId }).populate('category');
+            query.category = new mongoose.Types.ObjectId(categId);
+            //products = await Product.find({ category: categoryId }).populate('category');
            
-        } else {
-            products = await Product.find({}).populate('category');;
-        }
+        } 
+        //console.log("skip:-",skip,'limit-',Item_page);
+        const products=await Product.find(query)
+         .skip(skip)
+         .limit(Item_page)
+         .populate('category');
+
+        
+
+        const totalProductsCount=await Product.countDocuments(query);
+        const totalPages=Math.ceil(totalProductsCount/Item_page);
+
+        
+    
         
         const Categdata = await Category.find({});
+
         
         
         const listedCategory = Categdata.filter((categ) => categ.is_listed === true);
         
-        const listProduct = products.filter((product) => {
-            const isProductListed = product.is_listed === true;
+      
+        const listdProduct = products.filter((product) => 
+         product.quantity > 0 && product.category && listedCategory.some((category) =>
+        category.name === product.category.name && category.is_listed 
+       )
+    );
 
-            const productCategory = listedCategory.find((category) =>
-                category.name === product.category.name  && category.is_listed === true
-             );
+    const sort=Number(req.query.sort);
 
-            return isProductListed && productCategory;
-        });
-        
+    //console.log(sort);
 
+    if (sort === 1) {
+        listdProduct.sort((a, b) => a.price - b.price);
+    } else if (sort === -1) {
+        listdProduct.sort((a, b) => b.price - a.price);
+    }
+
+        //console.log(totalPages);
 
         res.render('shop', {
             Categories: listedCategory,
-            products: listProduct,
+            products: listdProduct,
             user,
+            search,
+            currentPage:page,
+            totalPages,
+            sort,
+            categId
         });
 
     } catch (error) {
@@ -623,83 +658,7 @@ const shopload = async (req, res) => {
     }
 };
 
-const descendingShopload = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.session.user_id });
-        const categId = req.query.categid;
 
-        let products = [];
-
-        if (categId) {
-            const categoryId = new mongoose.Types.ObjectId(categId);
-            products = await Product.find({ category: categoryId }).populate('category').sort('-price');
-        } else {
-            products = await Product.find({}).populate('category').sort('-price');
-        }
-
-        const Categdata = await Category.find({});
-        
-        const listedCategory = Categdata.filter((categ) => categ.is_listed === true);
-        
-        const listProduct = products.filter((product) => {
-            const isProductListed = product.is_listed === true;
-
-            const productCategory = listedCategory.find((category) =>
-                category.name === product.category.name && category.is_listed === true
-            );
-
-            return isProductListed && productCategory;
-        });
-
-        res.render('shop', {
-            Categories: listedCategory,
-            products: listProduct,
-            user,
-        });
-
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-const assentingShopload = async (req, res) => {
-    try {
-        const user = await User.findOne({ _id: req.session.user_id });
-        const categId = req.query.categid;
-
-        let products = [];
-
-        if (categId) {
-            const categoryId = new mongoose.Types.ObjectId(categId);
-            products = await Product.find({ category: categoryId }).populate('category').sort('price');
-        } else {
-            products = await Product.find({}).populate('category').sort('price');
-        }
-
-        const Categdata = await Category.find({});
-        
-        const listedCategory = Categdata.filter((categ) => categ.is_listed === true);
-        
-        const listProduct = products.filter((product) => {
-            const isProductListed = product.is_listed === true;
-
-            const productCategory = listedCategory.find((category) =>
-                category.name === product.category.name && category.is_listed === true
-            );
-
-            return isProductListed && productCategory;
-        });
-
-        res.render('shop', {
-            Categories: listedCategory,
-            products: listProduct,
-            user,
-        });
-
-    } catch (error) {
-        console.log(error.message);
-    }
-};
 
 
 
@@ -720,21 +679,8 @@ const shopdetailsload=async(req,res)=>{
     }
 }
 
-const shoppingcartload=async(req,res)=>{
-    try {
-        res.render("shopping-cart");
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-const checkoutload=async(req,res)=>{
-    try {
-        res.render("checkout");
-    } catch (error) {
-        console.log(error.message);
-        
-    }
-}
+
+
 
 const blogdetailsload=async(req,res)=>{
     try {
@@ -804,12 +750,8 @@ module.exports={
     //---------------home-------------------
     //mainhome,
     shopload,
-    descendingShopload,
-    assentingShopload,
     aboutload,
     shopdetailsload,
-    shoppingcartload,
-    checkoutload,
     blogdetailsload,
     blogload,
     contactload,

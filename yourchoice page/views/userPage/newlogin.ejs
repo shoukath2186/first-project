@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+    <html lang="en">
+     <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Responsive Login and Signup Form </title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/style.css"> 
+                
+        <!-- Boxicons CSS -->
+         <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> 
+                        
+    </head>
+    <body> 
+
+<section class="container forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Login</header>
+            <%
+            if(typeof message !=="undefined"){
+               %>
+               <p class="form-link" style="color: red;"><%= message %></p>
+              <%
+            }
+          %>
+            
+                <form action="/login" method="post" id="loginForm">
+                    <div class="field input-field">
+                        <input type="email" placeholder="Email" class="input" name="email" id="emailInput">
+                        
+                    </div>
+                    <p id="emailError" class="form-link" style="color: red;"></p>
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password" name="password" id="passwordInput">
+                        <i class='bx bx-hide eye-icon'></i>
+                        
+                    </div>
+                    <p id="passwordError" class="form-link" style="color: red;"></p>
+                    <div class="form-link">
+                        <a href="/forget" class="forgot-pass">Forgot password?</a>
+                    </div>
+                
+                    <div class="field button-field">
+                        <button type="button" onclick="validateForm()">Login</button>
+                    </div>
+                
+                    <div class="form-link">
+                        <a href="/verifyemail" class="forgot-pass">Verify email</a>
+                    </div>
+            </form>
+
+            <div class="form-link">
+                <span>Don't have an account? <a href="/register" >Register</a></span>
+            </div>
+        </div>
+
+        
+
+        
+
+       
+
+    </div>
+
+    <!-- Signup Form -->
+
+    
+</section>
+
+<script>
+    function validateForm() {
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        // Reset previous error messages
+        emailError.textContent = '';
+        passwordError.textContent = '';
+
+        // Validate email
+        const emailValue = emailInput.value.trim();
+        if (!isValidEmail(emailValue)) {
+            emailError.textContent = 'Please enter a valid email address';
+            return;
+        }
+
+        // Validate password
+        const passwordValue = passwordInput.value.trim();
+        if (passwordValue.length < 8) {
+            passwordError.textContent = 'Password must be at least 8 characters long';
+            return;
+        }
+
+        // If all validations pass, you can submit the form
+        document.getElementById('loginForm').submit();
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+</script>
+
+<!-- JavaScript -->
+<script >
+     const forms = document.querySelector(".forms"),
+     pwShowHide = document.querySelectorAll(".eye-icon"),
+     links = document.querySelectorAll(".link");
+
+     pwShowHide.forEach(eyeIcon => {
+     eyeIcon.addEventListener("click", () => {
+     let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+     pwFields.forEach(password => {
+     if(password.type === "password"){
+        password.type = "text";
+        eyeIcon.classList.replace("bx-hide", "bx-show");
+        return;
+        }
+      password.type = "password";
+       eyeIcon.classList.replace("bx-show", "bx-hide");
+})
+
+})
+})      
+
+links.forEach(link => {
+link.addEventListener("click", e => {
+e.preventDefault(); //preventing form submit
+forms.classList.toggle("show-signup");
+})
+})
+</script>
+
+</body>
+</html>

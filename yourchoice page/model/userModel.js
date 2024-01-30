@@ -17,6 +17,31 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    address:[{
+        name:{
+            type:String
+            
+        },
+        phone:{
+            type:String
+        },
+        country:{
+            type:String
+        },
+        landmark:{
+            type:String
+        },
+        city:{
+            type:String
+        },
+        address:{
+            type:String
+        },
+        pincode:{
+            type:String
+        }
+
+    }],
     is_admin:{
         type:Number,
         required:true
@@ -50,4 +75,6 @@ const userSchema=new mongoose.Schema({
 userSchema.index({ is_otp: 1 }, { expireAfterSeconds: 90 });
 
 
-module.exports=mongoose.model("User",userSchema)
+const User=mongoose.model("User",userSchema)
+
+module.exports=User;

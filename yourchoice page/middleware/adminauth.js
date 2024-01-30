@@ -9,6 +9,7 @@ const islogin = async (req, res, next) => {
             next();
         } else {
             return res.render('login',{message:'Please login.'});
+            //next();
         }
     } catch (error) {
         console.log(error.message);

@@ -11,7 +11,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -22,8 +22,29 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <a  href="https://icons8.com/icon/98957/user"></a> 
+    <a href="https://icons8.com/icon/98957/user"></a>
     <a href="https://icons8.com"></a>
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>Form Validation</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+
+        .cash-message {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body>
@@ -51,7 +72,7 @@
         </div>
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            
+
             <a href="#"><img src="img/icon/heart.png" alt=""></a>
             <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
@@ -111,19 +132,20 @@
                                     <li><a href="/checkout">Check Out</a></li>
                                     <li><a href="/shop-details">Shop Details</a></li>
                                     <li><a href="/about">About Us</a></li>
-                                    <li><a href="/contact">Contacts</a></li>                                     
+                                    <li><a href="/contact">Contacts</a></li>
                                     <li><a href="/blog-details">Blog Details</a></li>
                                 </ul>
                             </li>
-                           
-                            
+
+
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img style="padding-left: 20px;" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt=""/></a>
+                        <!-- <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a> -->
+                        <a href="/userProfile"><img style="padding-left: 20px;"
+                                src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="" /></a>
                         <a href="#"><img src="img/icon/heart.png" alt=""></a>
                         <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
@@ -158,129 +180,262 @@
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <form action="#">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6">
-                            <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-                            here</a> to enter your code</h6>
-                            <h6 class="checkout__title">Billing Details</h6>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
-                                        <input type="text">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+
+
+                        <h3 class="checkout__title">Address</h3>
+
+
+
+                        <div class="d-flex flex-wrap " style="justify-content: space-around;">
+
+                            <% if (userdata && userdata.address && userdata.address.length> 0) { %>
+                                <% userdata.address.forEach((data,index)=> { %>
+
+                                    <div class="product__item"
+                                        style="background-color: #f3f2ee; width: 200px; padding: 15px; text-align: left;">
+
+                                        <input type="radio" id="address_<%= data._id%>" name="group1"
+                                            value="<%= data._id%>"
+                                            style="display: block; margin: 0 auto; color: black;">
+
+
+                                        <label for="radioOption1">Address <%= index+1%></label>
+                                        <li>Name: <%= data.name %>
+                                        </li>
+                                        <li>Phone: <%= data.phone %>
+                                        </li>
+                                        <li>Country: <%= data.country %>
+                                        </li>
+                                        <li>Landmark: <%= data.landmark %>
+                                        </li>
+                                        <li>City: <%= data.city %>
+                                        </li>
+                                        <li>Address: <%= data.address %>
+                                        </li>
+                                        <li>Pincode: <%= data.pincode %>
+                                        </li>
+                                        <!-- Add more address details as needed -->
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Last Name<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add">
-                                <input type="text" placeholder="Apartment, suite, unite ect (optinal)">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country/State<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Postcode / ZIP<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="acc">
-                                    Create an account?
-                                    <input type="checkbox" id="acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p>Create an account by entering the information below. If you are a returning customer
-                                please login at the top of the page</p>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Account Password<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="diff-acc">
-                                    Note about your order, e.g, special noe for delivery
-                                    <input type="checkbox" id="diff-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Order notes<span>*</span></p>
-                                <input type="text"
-                                placeholder="Notes about your order, e.g. special notes for delivery.">
-                            </div>
+
+                                    <% }); %>
+                                        <% } else { %>
+                                            <h2>No addresses</h2>
+                                            <% } %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                <!-- Add more items if needed -->
+
                         </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="checkout__order">
-                                <h4 class="order__title">Your order</h4>
-                                <div class="checkout__order__products">Product <span>Total</span></div>
-                                <ul class="checkout__total__products">
-                                    <li>01. Vanilla salted caramel <span>$ 300.0</span></li>
-                                    <li>02. German chocolate <span>$ 170.0</span></li>
-                                    <li>03. Sweet autumn <span>$ 170.0</span></li>
-                                    <li>04. Cluten free mini dozen <span>$ 110.0</span></li>
-                                </ul>
-                                <ul class="checkout__total__all">
-                                    <li>Subtotal <span>$750.99</span></li>
-                                    <li>Total <span>$750.99</span></li>
-                                </ul>
-                                <div class="checkout__input__checkbox">
-                                    <label for="acc-or">
-                                        Create an account?
-                                        <input type="checkbox" id="acc-or">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua.</p>
-                                <div class="checkout__input__checkbox">
-                                    <label for="payment">
-                                        Check Payment
-                                        <input type="checkbox" id="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
+
+
+
+
+                        <!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
+                            here</a> to enter your code</h6>-->
+                        <h3 class="checkout__title">Add Address</h3>
+
+
+                        <form id="addressForm" action="/addAddress?cartid=<%= cart._id %>" method="post"
+                            onsubmit="return validateForm()">
+                            <div class="checkout__input">
+                                <p>Name</p>
+                                <input type="text" name="name" id="name">
+                                <p id="nameError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Phone</p>
+                                <input type="text" name="phone" id="phone">
+                                <p id="phoneError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Country</p>
+                                <input type="text" name="country" id="country">
+                                <p id="countryError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Landmark</p>
+                                <input type="text" name="landmark" id="landmark">
+                                <p id="landmarkError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Town/City</p>
+                                <input type="text" name="city" id="city">
+                                <p id="cityError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Address</p>
+                                <input type="text" name="address" id="address">
+                                <p id="addressError" style="color: red;" class="error-message"></p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Pin Code</p>
+                                <input type="text" name="pincode" id="pincode">
+                                <p id="pincodeError" style="color: red;" class="error-message"></p>
+                            </div>
+
+                            <br>
+                            <button type="submit"
+                                style="width: 50%;display: block;margin-left: auto;margin-right: auto;"
+                                class="site-btn">SUBMIT</button>
+                            <br><br>
+                        </form>
+
+
+
+
+
+
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4 class="order__title">Your order</h4>
+                            <div class="checkout__order__products">Product <span>Total</span></div>
+                            <ul class="checkout__total__products">
+                                <% if (cart && cart.items && cart.items.length> 0) { %>
+                                    <ul class="checkout__total__products">
+                                        <% cart.items.forEach((item, index)=> { %>
+                                            <li>
+                                                <%= index + 1 %>.<%= item.product_id.name %><span>₹<%= item.price %> x
+                                                                <%= item.quantity %> </span>
+                                            </li>
+                                            <% }) %>
+                                    </ul>
+                                    <% } else { %>
+                                        <% if (cart.length> 0) { %>
+                                            <ul class="checkout__total__products">
+                                                <% cart.forEach((cartItem, cartIndex)=> { %>
+                                                    <% if (cartItem.items.length> 0) { %>
+                                                        <% cartItem.items.forEach((item, index)=> { %>
+                                                            <li>
+                                                                <%= cartIndex + 1 %>.<%= item.product_id.name %><span>₹
+                                                                            <%= item.price %> x <%= item.quantity %>
+                                                                        </span>
+                                                            </li>
+                                                            <% }) %>
+                                                                <% } else { %>
+                                                                    <p>No items in the cart.</p>
+                                                                    <% } %>
+                                                                        <% }) %>
+                                            </ul>
+                                            <% } else { %>
+                                                <p>No carts available.</p>
+                                                <% } %>
+
+                                                    <% } %>
+
+                            </ul>
+
+                            <ul class="checkout__total__all">
+                                <li>Subtotal <span>₹<%= total %></span></li>
+                                <li>Total <span>₹<%= total %></span></li>
+                            </ul>
+
+
+                            <!-- <div class="checkout__input__checkbox">
+                                <label for="payment">
+                                    Check Payment
+                                    <input type="checkbox" id="payment">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div> -->
+
+
+                            <form action="/buyproduct?cartid=<%= cart._id %>" method="post"
+                                onsubmit="return buyProduct('<%= total %>')">
                                 <div class="checkout__input__checkbox">
                                     <label for="paypal">
-                                        Paypal
-                                        <input type="checkbox" id="paypal">
+                                        Cash on delivery
+                                        <input type="checkbox" id="paypal" name="paymentMethod">
                                         <span class="checkmark"></span>
+                                        <p id="cashError" style="color: red;" class="cash-message"></p>
                                     </label>
                                 </div>
+                                <input type="hidden" id="selectedAddressId" name="selectedAddressId" value="">
+                                <input type="hidden" name="cartIds" value="<%= cart._id %>">
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
-                            </div>
+                            </form>
+
+
+
+                            <script>
+
+                                function buyProduct(totel) {
+
+                                    // Reset error message
+                                    document.getElementById('cashError').innerText = '';
+
+
+                                    var selectedAddressId;
+                                    var radioOptions = document.getElementsByName('group1');
+                                    for (var i = 0; i < radioOptions.length; i++) {
+                                        if (radioOptions[i].checked) {
+                                            selectedAddressId = radioOptions[i].value;
+                                            break;
+                                        }
+                                    }
+                                    console.log(selectedAddressId);
+                                    // Validate selected address
+                                    if (!selectedAddressId) {
+                                        document.getElementById('cashError').innerText = 'Select an address.';
+                                        return false;
+                                    }
+
+
+                                    document.getElementById('selectedAddressId').value = selectedAddressId;
+
+
+                                    // Get checkbox state
+                                    var isCashOnDeliveryChecked = document.getElementById('paypal').checked;
+                                    const total = parseInt(totel);
+                                    //console.log(total);
+
+                                    if (totel == 0) {
+                                        document.getElementById('cashError').innerText = 'No Product';
+                                        return false;
+                                    }
+
+                                    // Validate Cash on Delivery checkbox
+                                    if (!isCashOnDeliveryChecked) {
+                                        document.getElementById('cashError').innerText = 'Please select any Payment method.';
+                                        return false; // Prevent form submission
+                                    }
+
+                                    // Add additional validation if needed
+
+                                    return true; // Allow form submission
+                                }
+
+
+                            </script>
+
+
+
                         </div>
                     </div>
-                </form>
+                </div>
+
             </div>
         </div>
     </section>
@@ -343,7 +498,7 @@
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
@@ -364,6 +519,10 @@
     </div>
     <!-- Search End -->
 
+    <script>
+
+    </script>
+
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -375,6 +534,84 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+
+
+
+    <script>
+        function validateForm() {
+            // Reset error messages
+            document.getElementById('nameError').innerText = '';
+            document.getElementById('phoneError').innerText = '';
+            document.getElementById('countryError').innerText = '';
+            document.getElementById('landmarkError').innerText = '';
+            document.getElementById('cityError').innerText = '';
+            document.getElementById('addressError').innerText = '';
+            document.getElementById('pincodeError').innerText = '';
+
+            // Get form values
+            var name = document.getElementById('name').value;
+            var phone = document.getElementById('phone').value;
+            var country = document.getElementById('country').value;
+            var landmark = document.getElementById('landmark').value;
+            var city = document.getElementById('city').value;
+            var address = document.getElementById('address').value;
+            var pincode = document.getElementById('pincode').value;
+
+            // Flag to check if the form is valid
+            var isValid = true;
+
+            // Validate Name
+            if (name.trim() === '') {
+                document.getElementById('nameError').innerText = 'Name is required';
+                isValid = false;
+            }
+
+            // Validate Phone
+            if (phone.trim() === '') {
+                document.getElementById('phoneError').innerText = 'Phone is required';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phone)) {
+                document.getElementById('phoneError').innerText = 'Invalid phone number';
+                isValid = false;
+            }
+
+            // Validate Country
+            if (country.trim() === '') {
+                document.getElementById('countryError').innerText = 'Country is required';
+                isValid = false;
+            }
+
+            // Validate Landmark
+            // Add similar validation for other fields
+            if (landmark.trim() === '') {
+                document.getElementById('landmarkError').innerText = 'Country is required';
+                isValid = false;
+            }
+
+            // Validate City
+            if (city.trim() === '') {
+                document.getElementById('cityError').innerText = 'City is required';
+                isValid = false;
+            }
+
+            // Validate Address
+            if (address.trim() === '') {
+                document.getElementById('addressError').innerText = 'Address is required';
+                isValid = false;
+            }
+
+            // Validate Pin Code
+            if (pincode.trim() === '') {
+                document.getElementById('pincodeError').innerText = 'Pin Code is required';
+                isValid = false;
+            } else if (!/^\d{5}$/.test(pincode)) {
+                document.getElementById('pincodeError').innerText = 'Invalid Pin Code';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
 </body>
 
 </html>

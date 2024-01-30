@@ -235,7 +235,7 @@
 
                         <li class="nav-item">
                             <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                            <a class="nav-link" href="orders">
+                            <a class="nav-link" href="category">
                                 <span class="nav-icon">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@
                                             d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z" />
                                     </svg>
                                 </span>
-                                <span class="nav-link-text">Pages</span>
+                                <span class="nav-link-text">Users Roles</span>
                                 <span class="submenu-arrow">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -296,7 +296,7 @@
                             <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                                 <ul class="submenu-list list-unstyled">
                                     <li class="submenu-item"><a class="submenu-link"
-                                            href="notifications">Notifications</a></li>
+                                            href="notifications">Orders</a></li>
                                     <li class="submenu-item"><a class="submenu-link" href="account">Account</a></li>
                                     <li class="submenu-item"><a class="submenu-link" href="settings">Settings</a></li>
                                 </ul>
@@ -462,6 +462,13 @@
                                           <p></p>
                                           <input type="hidden" name="id" value="<%= products._id %>">
                                           <input type="text" name="productName" class="form-control file-upload-info" value="<%= products.name %>" placeholder="ProductName" required>
+                                          <%
+                                          if(typeof messagename !=="undefined"){
+                                            %>
+                                            <p  style="color: red;"><%= messagename %></p>
+                                           <%
+                                         }
+                                       %>
                                           <p class="form-link productName" style="color: red;"></p>
                                         </div>
                                         <br>
@@ -610,6 +617,7 @@
                // Validate Product Name
                const productNameInput = document.querySelector('input[name="productName"]');
                if (productNameInput.value.trim() === '') {
+                 productNameInput.value=''
                  showError(productNameInput, 'Product Name is required');
                  valid = false;
                } else {
@@ -619,6 +627,7 @@
                // Validate Description
                const descriptionInput = document.querySelector('input[name="discription"]');
                if (descriptionInput.value.trim() === '') {
+                descriptionInput.value=''
                  showError(descriptionInput, 'Description is required');
                  valid = false;
                } else {
@@ -628,6 +637,7 @@
                // Validate Quantity
                const quantityInput = document.querySelector('input[name="quantity"]');
                if (quantityInput.value.trim() === '' || isNaN(quantityInput.value.trim())) {
+                quantityInput.value=''
                  showError(quantityInput, 'Quantity must be a number');
                  valid = false;
                } else {
@@ -637,6 +647,7 @@
                // Validate Price
                const priceInput = document.querySelector('input[name="price"]');
                if (priceInput.value.trim() === '' || isNaN(priceInput.value.trim())) {
+                priceInput.value=''
                  showError(priceInput, 'Price must be a number');
                  valid = false;
                } else {
@@ -666,6 +677,7 @@
                // Validate Brand
                const brandInput = document.querySelector('input[name="brand"]');
                if (brandInput.value.trim() === '') {
+                brandInput.value=''
                  showError(brandInput, 'Brand is required');
                  valid = false;
                } else {
